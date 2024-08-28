@@ -3,10 +3,10 @@ package com.test.krishna.viewmodel
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.test.krishna.data.repositories.UserRepository
 import com.test.krishna.util.AuthListener
 
 class AuthViewModel : ViewModel() {
-
 
     var email: String? = null
     var pwd: String? = null
@@ -24,4 +24,17 @@ class AuthViewModel : ViewModel() {
         }
 
     }
+
+     fun onCommentsButtonClick(v : View) {
+
+         Log.d(TAG,"onCommentsButtonClick ")
+         authListener?.onStarted()
+         val commentsResponse = UserRepository().loadComments()
+        Log.d(TAG,"UserRepository loadComments "+commentsResponse)
+        authListener?.onCommentsDataReceived(commentsResponse)
+
+
+
+
+     }
 }
