@@ -1,6 +1,6 @@
 package com.test.krishna.data.network
 
-import com.test.krishna.Comments
+import com.test.krishna.data.db.entities.Comments
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
