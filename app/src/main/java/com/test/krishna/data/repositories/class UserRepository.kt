@@ -3,6 +3,7 @@ package com.test.krishna.data.repositories
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.test.krishna.data.db.entities.Comments
 import com.test.krishna.data.network.MyApi
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -35,6 +36,29 @@ class UserRepository {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d(TAG,"onFailure "+t.message);
                 commentsResponse.value = t.message
+            }
+        })
+        return  commentsResponse
+    }
+
+
+    fun loadCommentsList() : LiveData<List<Comments>> {
+        Log.d(TAG,"loadCommentsList");
+        val commentsResponse = MutableLiveData<List<Comments>>()
+
+
+
+        MyApi().getComments().enqueue(object : Callback<List<Comments>> {
+            override fun onResponse(call: Call<List<Comments>>, response: Response<List<Comments>>) {
+                Log.d(TAG,"onResponse");
+                if(response.isSuccessful) {
+                    commentsResponse.value = response.body()
+                    Log.d(TAG,"onResponse success");
+                }
+            }
+
+            override fun onFailure(call: Call<List<Comments>>, t: Throwable) {
+                Log.d(TAG,"onFailure "+t.message);
             }
         })
         return  commentsResponse

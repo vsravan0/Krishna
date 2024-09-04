@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.test.krishna.R
+import com.test.krishna.data.db.AppDataBase
+import com.test.krishna.data.db.entities.Comments
 import com.test.krishna.databinding.LayoutLoginBinding
 import com.test.krishna.util.AuthListener
 import com.test.krishna.util.toast
@@ -46,10 +48,34 @@ class ActivityLogin : ComponentActivity(), AuthListener {
         Log.d("ActivityLogin","onCommentsDataReceived");
         toast("onCommentsDataReceived")
 
+
+
         commentsResponse.observe(this, Observer {
 
             Log.d("ActivityLogin live data"," "+it)
+
+
+
         })
 
+    }
+
+    override fun onCommentsListReceived(commentsResponse: LiveData<List<Comments>>) {
+
+        Log.d("ActivityLogin","onCommentsListReceived");
+        toast("onCommentsListReceived")
+
+        val db = AppDataBase(this)
+        val dao = db.getCommentsDao()
+
+        commentsResponse.observe(this, Observer {
+
+            Log.d("ActivityLogin ","list  "+it)
+            Log.d("ActivityLogin ","Before insert  ")
+            dao.insertComments(it) // Insert data into DB
+            Log.d("ActivityLogin ","After insert and GET  ")
+            val listComments = dao.getComments() // GET Data from DB
+            Log.d("ActivityLogin ","listComments from DB   "+listComments)
+        })
     }
 }

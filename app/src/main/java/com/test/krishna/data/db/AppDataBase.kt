@@ -30,7 +30,8 @@ abstract class AppDataBase : RoomDatabase() {
                 context.applicationContext,
                 AppDataBase::class.java,
                 "krishna.db"
-            ).build()
+            ).allowMainThreadQueries()
+                .build()
     }
 
 }

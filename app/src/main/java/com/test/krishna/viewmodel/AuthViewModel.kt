@@ -22,19 +22,23 @@ class AuthViewModel : ViewModel() {
             Log.d(TAG,"onLoginButtonClick username or password not empty -> "+authListener)
             authListener?.onSuccess()
         }
-
     }
 
      fun onCommentsButtonClick(v : View) {
-
          Log.d(TAG,"onCommentsButtonClick ")
          authListener?.onStarted()
          val commentsResponse = UserRepository().loadComments()
         Log.d(TAG,"UserRepository loadComments "+commentsResponse)
         authListener?.onCommentsDataReceived(commentsResponse)
-
-
-
-
      }
+
+    fun onCommentsListButtonClick(v : View) {
+        Log.d(TAG,"onCommentsListButtonClick ")
+        authListener?.onStarted()
+        val commentsResponse = UserRepository().loadCommentsList()
+        Log.d(TAG,"UserRepository loadComments "+commentsResponse)
+        authListener?.onCommentsListReceived(commentsResponse)
+    }
+
+
 }
